@@ -1,19 +1,20 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import React from 'react';
 import ArticlesList from '../components/ArticlesList';
 import articleService from '../services/article.service';
-import ReactPaginate from 'react-paginate';
 
 import styles from '../styles/Home.module.css';
 import { useRouter } from 'next/dist/client/router'
 import { TablePagination } from '@mui/material';
+import ArticleType from '../types/article';
 
-const Home: NextPage = ({ articles }: any) => {
+type Props = {
+  articles: ArticleType[]
+}
+const Home = ( { articles }: Props) => {
   const router = useRouter()
   const [page, setPage] = React.useState(0);
-  console.log(articles);
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
@@ -37,7 +38,7 @@ const Home: NextPage = ({ articles }: any) => {
 
       <main className={styles.main}>
         <div>
-        <ArticlesList articlesList={articles.data}/>
+        <ArticlesList articlesList={articles}/>
       <TablePagination count={-1} onPageChange={handleChangePage} 
                        page={page} rowsPerPage={15} rowsPerPageOptions={[]} />
 
@@ -51,10 +52,10 @@ const Home: NextPage = ({ articles }: any) => {
 export default Home
 export const getServerSideProps  = async ({ query }: any) => {
     const page = query.page || 1; //if page empty we request the first page
-    const articles = (await articleService.getPagedArticles(page)).data;
+    const articles = (await articleService.getPagedArticles(page)).data.data;
     return {
       props: {
-        articles 
+        articles
       }
     };
 }

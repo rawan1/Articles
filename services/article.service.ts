@@ -10,7 +10,6 @@ class articleService {
 
     }
     getArticleById = async (articleId: number) => {
-        console.log('getArticleById ' + articleId);
         var token = "m8tiFyxZrZD1NGWNAjSu7dpPV8hlJOMLOqS2sWCGXXFllxFsHmGwrD3oT2Son1kXaEM6iRL22nLsgBPp"
         var headers = {
             'Authorization': `Bearer ${token}`,

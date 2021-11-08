@@ -3,18 +3,18 @@ import React, { useEffect, useState } from "react";
 import commentsService from "../services/comments.service";
 import styles from '../styles/comments.module.css';
 
-export default function Comments({ articleId }: any) {
+type Props = {
+  articleId: number;
+}
+export default function Comments({ articleId }: Props) {
     const [page, setPage] = React.useState(0);
 
     const [comments, setcomments] = useState([]);
 
     const retrieveComments = () => {
-        console.log('retrieveComments')
     commentsService.getpagedComments(page, articleId)
       .then((response) => {
         setcomments(response.data.data);
-        console.log('Comments');
-        console.log(response.data.data);
       })
       .catch((e) => {
         console.log(e);
